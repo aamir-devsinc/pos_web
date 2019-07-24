@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { registerUser } from '../redux-token-auth-config' // <-- note this is YOUR file, not the redux-token-auth NPM module
+import { Button, Checkbox, Form, Grid, Header, Image } from 'semantic-ui-react'
 
 class RegisterScreen extends Component {
   constructor(props) {
@@ -37,25 +38,31 @@ class RegisterScreen extends Component {
   render() {
     const { submitForm } = this;
     return (
-      <form onSubmit={submitForm}>
-        <div>
-          <label>Email: </label>
+      <Grid columns={3} divided>
+        <Grid.Column>
+        </Grid.Column>
+        <Grid.Column>
+          <Header as='h2'>
+            <Image circular src='https://react.semantic-ui.com/images/avatar/large/patrick.png' /> Signup Form
+          </Header>
           <br/>
-          <input type="text" name="email" onChange={this.onChange} value={this.state.email} />
-        </div>
-
-        <br/>
-
-        <div>
-          <label>Password: </label>
-          <br/>
-          <input type="password" name="password" onChange={this.onChange} value={this.state.password} />
-        </div>
-
-        <br/>
-
-        <button type="submit">SIGNUP</button>
-      </form>
+          <Form onSubmit={submitForm}>
+            <Form.Field>
+              <label>Email</label>
+              <br/>
+              <input type="text" name="email" onChange={this.onChange} value={this.state.email} />
+            </Form.Field>
+            <Form.Field>
+              <label>Password</label>
+              <br/>
+              <input type="password" name="password" onChange={this.onChange} value={this.state.password} />
+            </Form.Field>
+            <Button type='submit'>SIGNUP</Button>
+          </Form>
+        </Grid.Column>
+        <Grid.Column>
+        </Grid.Column>
+      </Grid>
     );
   }
 

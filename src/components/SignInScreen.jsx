@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { signInUser } from '../redux-token-auth-config' // <-- note this is YOUR file, not the redux-token-auth NPM module
+import { signInUser } from '../redux-token-auth-config'
+import { Button, Checkbox, Form, Grid, Header, Image } from 'semantic-ui-react'
+ // <-- note this is YOUR file, not the redux-token-auth NPM module
 
 class SignInScreen extends Component {
   constructor(props) {
@@ -36,27 +38,32 @@ class SignInScreen extends Component {
   render() {
     const { submitForm } = this;
     return (
-      <div>
-        <form onSubmit={submitForm}>
-          <div>
-            <label>Email: </label>
-            <br/>
-            <input type="text" name="email" onChange={this.onChange} value={this.state.email} />
-          </div>
-
+      <Grid columns={3} divided>
+        <Grid.Column>
+        </Grid.Column>
+        <Grid.Column>
+          <Header as='h2'>
+            <Image circular src='https://react.semantic-ui.com/images/avatar/large/patrick.png' /> Signin Form
+          </Header>
           <br/>
+          <Form onSubmit={submitForm}>
+            <Form.Field>
+              <label>Email</label>
+              <br/>
+              <input type="text" name="email" onChange={this.onChange} value={this.state.email} />
+            </Form.Field>
+            <Form.Field>
+              <label>Password</label>
+              <br/>
+              <input type="password" name="password" onChange={this.onChange} value={this.state.password} />
+            </Form.Field>
+            <Button type='submit'>LOGIN</Button>
+          </Form>
+        </Grid.Column>
+        <Grid.Column>
+        </Grid.Column>
+      </Grid>
 
-          <div>
-            <label>Password: </label>
-            <br/>
-            <input type="password" name="password" onChange={this.onChange} value={this.state.password} />
-          </div>
-
-          <br/>
-
-        <button type="submit">LOGIN</button>
-      </form>
-      </div>
     );
   }
 }
