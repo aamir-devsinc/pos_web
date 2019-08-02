@@ -10,6 +10,7 @@ import Home from "../company/home";
 import Navigation from "../company/navigation";
 import CreateCompany from "../company/createCompany";
 import "./App.css";
+import Inventory from "../inventory/inventory";
 
 function App({ isSignedIn }) {
   return (
@@ -22,6 +23,7 @@ function App({ isSignedIn }) {
           <Switch>
             <Route path="/home" exact component={isSignedIn ? Home : Auth} />
             <Route path="/company/create" exact component={isSignedIn ? CreateCompany : Auth} />
+            <Route path="/inventory" exact component={Inventory} />
             <Route path="/register" component={SignUp} />
             <Route path="/login" component={SignIn} />
             <Route path="/logout" component={SignOut} />

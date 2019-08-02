@@ -35,6 +35,9 @@
 .imguploader{
   text-align: center;
 }
+.imguploader input{
+  margin-bottom: 15px !important;
+}
 .imguploader img{
   height: 100px;
   width: 100px;
@@ -42,6 +45,7 @@
   margin-top: 15px;
   border-radius: 50%;
 }
+
 
 @keyframes App-logo-spin {
   from {
