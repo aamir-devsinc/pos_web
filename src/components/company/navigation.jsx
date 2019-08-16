@@ -21,6 +21,13 @@ class Navigation extends Component {
             content="Inventory"
           />
         </Link>
+        <Link to="/returns">
+          <Menu.Item
+            className="nav_menu_item"
+            name="Returns"
+            content="Returns"
+          />
+        </Link>
 
         <Menu.Menu position="right">
           <Menu.Item name="logout" className="nav_menu_menu_item">

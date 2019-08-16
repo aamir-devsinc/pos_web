@@ -16,6 +16,7 @@ import { apiSubDomain, pathName } from "../../utils/api-config";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import Inventory from "../inventory/inventory";
+import Return from "../return/return";
 
 function App({ isSignedIn, isLoading, signOutUser, isSuperAdmin }) {
   if (isLoading) {
@@ -45,6 +46,11 @@ function App({ isSignedIn, isLoading, signOutUser, isSuperAdmin }) {
               path="/inventory"
               exact
               component={isSignedIn ? Inventory : Auth}
+            />
+            <Route
+              path="/returns"
+              exact
+              component={isSignedIn ? Return : Auth}
             />
             <Route path="/register" component={SignUp} />
             <Route path="/login" component={SignIn} />

@@ -12,7 +12,7 @@ import {
 class AdminAuth extends Component {
   render() {
     return (
-      <Container className="marginTop" textAlign="justified">
+      <Container className="authMarginTop" textAlign="justified">
         <Grid centered columns={2}>
           <Grid.Column>
             <Segment color="blue">
