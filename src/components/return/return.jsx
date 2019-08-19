@@ -37,24 +37,65 @@ class Return extends Component {
     this.setState({ invoiceId: e.target.value });
   };
   handleQuantity = () => {
+    const { returnQuantity, selectedItem } = this.state;
+    debugger;
+    const oldInvoice = { ...this.state.oldInvoice };
+    const returnItems = [...this.state.returnItems];
+    const index = oldInvoice.sold_items.findIndex(item => {
+      return item.id === selectedItem.id;
+    });
+    debugger;
+    let returnIndex = returnItems.findIndex(item => {
+      return item.id === selectedItem.id;
+    });
+
+    let addedReturnTotal = 0.0;
+    if (returnIndex === -1) {
+      returnItems.push({ ...selectedItem });
+      returnIndex = returnItems.findIndex(item => {
+        return item.id === selectedItem.id;
+      });
+      returnItems[returnIndex].quantity = returnQuantity;
+    } else {
+      addedReturnTotal = this.soldPrice(
+        returnItems[returnIndex],
+        oldInvoice.discount
+      );
+      returnItems[returnIndex].quantity =
+        parseFloat(returnItems[returnIndex].quantity) +
+        parseFloat(returnQuantity);
+    }
+    let soldPrice = this.soldPrice(
+      returnItems[returnIndex],
+      oldInvoice.discount
+    );
+    const returnTotal = this.state.returnTotal + soldPrice - addedReturnTotal;
+    soldPrice = this.soldPrice(selectedItem, oldInvoice.discount);
+    oldInvoice.sold_items[index].quantity -= returnQuantity;
+    oldInvoice.total -= soldPrice;
+    oldInvoice.total += this.soldPrice(selectedItem, oldInvoice.discount);
+    if (oldInvoice.sold_items[index].quantity === 0) {
+      const sold_items = oldInvoice.sold_items.filter(
+        i => i.id !== oldInvoice.sold_items[index].id
+      );
+      oldInvoice.sold_items = sold_items;
+    }
+    this.setState({ oldInvoice, returnItems, returnTotal });
     this.handleClose();
   };
   handleDelete = item => {
-    const originalOldInvoice = this.state.oldInvoice;
-    const returnItems = [...this.state.returnItems, item];
-    const sold_items = originalOldInvoice.sold_items.filter(
-      i => i.id !== item.id
+    this.setState({ selectedItem: item, returnQuantity: item.quantity }, () =>
+      this.handleQuantity()
     );
-    let oldInvoice = { ...originalOldInvoice };
-    oldInvoice.sold_items = sold_items;
+  };
+
+  soldPrice = (item, invoiceDiscount) => {
     let soldPrice = item.unit_price * item.quantity;
-    if (oldInvoice.discount) {
-      const discount = (soldPrice / 100) * oldInvoice.discount.rate;
+    if (invoiceDiscount) {
+      const discount = (soldPrice / 100) * invoiceDiscount.rate;
       soldPrice -= discount;
     }
-    oldInvoice.total -= soldPrice;
-    const returnTotal = this.state.returnTotal + soldPrice;
-    this.setState({ oldInvoice, returnTotal, returnItems });
+    return soldPrice;
   };
 
   findInvoice = () => {
@@ -115,7 +156,7 @@ class Return extends Component {
                     {oldInvoice.sold_items.map(item => (
                       <Table.Row key={item.id}>
                         <Table.Cell>{item.item_id}</Table.Cell>
-                        <Table.Cell>{item.item_name}</Table.Cell>
+                        <Table.Cell>{item.name}</Table.Cell>
                         <Table.Cell>
                           {item.quantity}
                           <Button
@@ -198,7 +239,7 @@ class Return extends Component {
                     {this.state.returnItems.map(item => (
                       <Table.Row key={item.id}>
                         <Table.Cell>{item.item_id}</Table.Cell>
-                        <Table.Cell>{item.item_name}</Table.Cell>
+                        <Table.Cell>{item.name}</Table.Cell>
                         <Table.Cell>{item.quantity}</Table.Cell>
                         <Table.Cell>{item.unit_price}</Table.Cell>
                         <Table.Cell>
